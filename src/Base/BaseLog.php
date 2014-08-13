@@ -75,13 +75,13 @@ abstract class BaseLog
     
     private function getUserConf()
     {
-        $file = APPLICATION_PATH . '/../application/library/config/Log.yml';
+        $file = APPLICATION_PATH . '/../conf/custom/Log.yml';
         
         if ( ! is_file($file)) {
         	throw new \Exception('Log.yml file not found!');
         }
         
-        $conf = Yaml::parse(APPLICATION_PATH . '/../application/library/config/Log.yml');
+        $conf = Yaml::parse($file);
         
         return $conf['log'];
     }
