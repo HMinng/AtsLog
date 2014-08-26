@@ -1,0 +1,21 @@
+conf:
+    path: /tmp            #日志存放路径
+    split_by_level: 1     #日志是否按日志等级分文件
+    split_by_hore: 1      #每小时分割一份日志文件
+    split_by_size: 1M   #日志文件多大分割一份文件,支持M和G,例：100M | 10G.为0，不限制
+
+product:
+    - time                #日志记录时间
+    - exec_time           #执行时间
+    - pid                 #当前php进程id
+    - memory              #当前php进程所用内存
+    - level               #日志级别[error, waring, info, debug]
+    - uri                 #调用php的uri
+    - line                #记录日志的行号
+    - file                #记录日志的文件
+    - output              #输出
+    - traces              #堆栈信息
+#####################################custom###################################################
+    - id                  #[traceId_systemId_sourceId_customId]
+    - input               #输入
+    - info                #扩展信息
