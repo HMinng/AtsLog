@@ -5,6 +5,10 @@ use HMinng\Log\Conf\BaseConfig;
 
 class Base
 {
+    const INVOKE_LINE = 4;
+
+    const NUMBER = 20;
+
     public static $startTime = NUll;
 
     public static $params = array();
@@ -29,9 +33,7 @@ class Base
 
         self::traces();
 
-        if (empty(self::$fields)) {
-            self::$fields = self::getFields();
-        }
+        self::$fields = self::getFields();
 
         if (is_null(self::$configures)) {
             self::$configures = BaseConfig::getBaseConfigures();
@@ -47,7 +49,7 @@ class Base
 
         /** @var $fields array */
         $fields = array();
-        foreach ($businessConfigures as $key => $value) {
+        foreach ($businessConfigures as $key => $value) {echo 1 . '<br/>';
             if (in_array($key, $fieldsConfigures)) {
                 eval($value);
             }
@@ -58,10 +60,15 @@ class Base
 
     private static function traces()
     {
-        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 20);
+        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::NUMBER);
 
-        self::$params['line'] = $traces[3]['line'];
-        self::$params['file'] = $traces[3]['file'];
+        $number = self::INVOKE_LINE;
+        if ($traces[$number + 1]['function'] == '__construct') {
+            $number += 1;
+        }
+
+        self::$params['line'] = $traces[$number]['line'];
+        self::$params['file'] = $traces[$number]['file'];
         self::$params['traces'] = json_encode($traces);
 
         return true;
