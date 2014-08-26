@@ -49,7 +49,7 @@ class Base
 
         /** @var $fields array */
         $fields = array();
-        foreach ($businessConfigures as $key => $value) {echo 1 . '<br/>';
+        foreach ($businessConfigures as $key => $value) {
             if (in_array($key, $fieldsConfigures)) {
                 eval($value);
             }
