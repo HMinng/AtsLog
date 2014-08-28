@@ -11,10 +11,13 @@ class BaseConfig
 
     private static $baseConfigures = NULL;
 
+    private static $projectConfigures = NULL;
+
     public static function init()
     {
         self::setConfigures();
         self::setBusinessConfigures();
+        self::setProjectConfigures();
 
         return true;
     }
@@ -54,6 +57,17 @@ class BaseConfig
         return true;
     }
 
+    private static function setProjectConfigures()
+    {
+        if ( ! is_null(self::$projectConfigures)) {
+            return true;
+        }
+
+        self::$projectConfigures = Yaml::parse(__DIR__ . '/../Conf/Project/Project.yml');
+
+        return true;
+    }
+
     public static function getBaseConfigures()
     {
         return self::$baseConfigures;
@@ -67,5 +81,10 @@ class BaseConfig
     public static function getBusinessConfigures()
     {
         return self::$businessConfigures;
+    }
+
+    public static function getProjectConfigures()
+    {
+        return self::$projectConfigures;
     }
 }

@@ -10,7 +10,6 @@ class AtsLog extends Base
      * @param int $sourceId 错误号
      * @param int $customId 自定义ID
      * @param array $params 包括input，info信息
-     * @internal param null $int $customId 自定义ID
      */
     public static function error($message, $traceId, $sourceId = 0, $customId = 0, $params = array())
     {
@@ -51,15 +50,6 @@ class AtsLog extends Base
         self::process('debug', $message, $params);
     }
 
-    /**
-     * @param string $message 通知信息
-     * @param array $params 包括input，info信息
-     */
-    public static function notice($message, $params = array())
-    {
-        self::process('notice', $message, $params);
-    }
-
     private static function setParams($params)
     {
         if (array_key_exists('input', $params) && ! empty($params['input'])) {
@@ -68,6 +58,10 @@ class AtsLog extends Base
 
         if (array_key_exists('info', $params) && ! empty($params['info'])) {
             self::$params['info'] = $params['info'];
+        }
+
+        if ( ! array_key_exists('id', self::$params)) {
+            self::$params['id'] = NULL;
         }
 
         return true;

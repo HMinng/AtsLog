@@ -5,10 +5,6 @@ use HMinng\Log\Conf\BaseConfig;
 
 class Base
 {
-    const INVOKE_LINE = 4;
-
-    const NUMBER = 20;
-
     public static $startTime = NUll;
 
     public static $params = array();
@@ -23,6 +19,10 @@ class Base
 
     private static $configures = NULL;
 
+    private static $projectConfigures = NULL;
+
+    private static $isWrite = true;
+
     private static function init($message)
     {
         self::$time = time();
@@ -31,13 +31,19 @@ class Base
 
         BaseConfig::init();
 
-        self::traces();
-
-        self::$fields = self::getFields();
+        if (is_null(self::$projectConfigures)) {
+            self::$projectConfigures = BaseConfig::getProjectConfigures();
+        }
 
         if (is_null(self::$configures)) {
             self::$configures = BaseConfig::getBaseConfigures();
         }
+
+        self::traces();
+
+        self::isWrite();
+
+        self::$fields = self::getFields();
 
         return true;
     }
@@ -50,9 +56,15 @@ class Base
         /** @var $fields array */
         $fields = array();
         foreach ($businessConfigures as $key => $value) {
-            if (in_array($key, $fieldsConfigures)) {
-                eval($value);
+            if ( ! in_array($key, $fieldsConfigures)) {
+              continue;
             }
+
+            if (( ! self::$isWrite && in_array($key, self::$projectConfigures['write_level']['no_field']))) {
+                continue;
+            }
+
+            eval($value);
         }
 
         return $fields;
@@ -60,16 +72,30 @@ class Base
 
     private static function traces()
     {
-        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::NUMBER);
+        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::$projectConfigures['traces']['number']);
 
-        $number = self::INVOKE_LINE;
-        if ($traces[$number + 1]['function'] == '__construct') {
-            $number += 1;
+        $line = self::$projectConfigures['traces']['line'];
+        if ($traces[$line + 1]['function'] == '__construct') {
+            $line += 1;
         }
 
-        self::$params['line'] = $traces[$number]['line'];
-        self::$params['file'] = $traces[$number]['file'];
+        self::$params['line'] = $traces[$line]['line'];
+        self::$params['file'] = $traces[$line]['file'];
         self::$params['traces'] = json_encode($traces);
+
+        return true;
+    }
+
+    private static function isWrite()
+    {
+        self::$isWrite = true;
+
+        $writeLevle = array_key_exists(self::$configures['write_level'], self::$projectConfigures['write_level']['write']) ? self::$projectConfigures['write_level']['write'][self::$configures['write_level']] : 0;
+        $currentLevle = array_key_exists(self::$level, self::$projectConfigures['write_level']['write']) ? self::$projectConfigures['write_level']['write'][self::$level] : 0;
+
+        if ($currentLevle < $writeLevle) {
+            self::$isWrite = false;
+        }
 
         return true;
     }
