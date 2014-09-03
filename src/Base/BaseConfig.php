@@ -1,5 +1,5 @@
 <?php
-namespace HMinng\Log\Conf;
+namespace HMinng\Log\Base;
 
 use Symfony\Component\Yaml\Yaml;
 

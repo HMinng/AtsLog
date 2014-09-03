@@ -1,8 +1,6 @@
 <?php
 namespace HMinng\Log\Base;
 
-use HMinng\Log\Conf\BaseConfig;
-
 class Base
 {
     public static $startTime = NUll;
@@ -193,6 +191,17 @@ class Base
 
         $fileName = self::processFileSize($fileName);
 
-        error_log(implode(self::$fields, "\t") . "\r\n\r\n\r\n", 3, $fileName);
+        $string = implode(self::$fields, "\t");
+
+        if (self::$configures['is_compression'] == 1) {
+            $string = gzdeflate($string, 9);
+        }
+
+        error_log($string . "\r\n\r\n\r\n", 3, $fileName);
+    }
+
+    protected static function uppack($string)
+    {
+        return gzinflate($string);
     }
 }
