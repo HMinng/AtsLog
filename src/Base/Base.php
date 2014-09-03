@@ -147,7 +147,7 @@ class Base
             }
         }
 
-        $tempFileName = $fileName . '-' . $num . '.log';
+        $tempFileName = $fileName . '-' . $num;
 
         if (is_file($tempFileName)) {
             $fileSize = filesize($tempFileName);
@@ -172,7 +172,7 @@ class Base
             $size = substr($size, 0, $unit - 1);
 
             if ($fileSize > $size) {
-                $tempFileName = $fileName . '-' . ++ $num  . '.log';
+                $tempFileName = $fileName . '-' . ++ $num;
             }
         }
 
@@ -214,7 +214,7 @@ class Base
 
         $fileName = self::processFileSize($fileName);
 
-        return error_log($string . "\r\n\r\n\r\n", 3, $fileName);
+        return error_log($string . "\r\n\r\n\r\n", 3, $fileName . '.log');
     }
 
     private static function remoteFileSystem($string)

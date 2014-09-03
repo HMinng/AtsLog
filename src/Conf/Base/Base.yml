@@ -3,9 +3,9 @@ conf:
     split_by_level: 1                 #日志是否按日志等级分文件
     split_by_hore: 1                  #每小时分割一份日志文件
     split_by_size: 1M                 #日志文件多大分割一份文件,支持M和G,例：100M | 10G.为0，不限制
-    is_compression: 1                 #是否压缩存储
+    is_compression: 0                 #是否压缩存储
     write_level: info                 #日志输出级别：debug->info->waring->error,大于等于输入的日志级别才会被写进日志文件(级别由左到右变大)
-    writing_position: 'local'         #日志写入位置，local本地文件，配置此选项必须配置path；remote远端syslog,配置此选项必须配置syslog_local；queue消息队列，配置了本选项必须配置wrtie_number
+    writing_position: queue           #日志写入位置，local本地文件，配置此选项必须配置path；remote远端syslog,配置此选项必须配置syslog_local；queue消息队列，配置了本选项必须配置wrtie_number,建议打开压缩保存
     syslog_local: LOG_LOCAL0          #如果是syslog此参数才会生效
     write_number: 0                   #默认为0，实时写，否则可以配置多少条写一次文件，否则会将数据写入队列。
     remote_config_server: 127.0.0.1   #php配置服务器地址
