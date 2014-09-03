@@ -187,17 +187,35 @@ class Base
     {
         self::init($message);
 
-        $fileName = self::getFileName();
-
-        $fileName = self::processFileSize($fileName);
-
         $string = implode(self::$fields, "\t");
 
         if (self::$configures['is_compression'] == 1) {
             $string = gzdeflate($string, 9);
         }
 
-        error_log($string . "\r\n\r\n\r\n", 3, $fileName);
+        if (self::$configures['is_syslog'] ==  1) {
+            return self::remoteFileSystem($string);
+        } else {
+            return self::localFileSystem($string);
+        }
+    }
+
+    private static function localFileSystem($string)
+    {
+        $fileName = self::getFileName();
+
+        $fileName = self::processFileSize($fileName);
+
+        return error_log($string . "\r\n\r\n\r\n", 3, $fileName);
+    }
+
+    private static function remoteFileSystem($string)
+    {
+        $level = array('error' => LOG_ERR, 'waring' => LOG_WARNING, 'info' => LOG_INFO, 'debug' => LOG_DEBUG);
+
+        openlog('PHP_LOG', LOG_PID, self::$configures['syslog_local']);
+        syslog($level[self::$level], $string);
+        return closelog();
     }
 
     protected static function uppack($string)

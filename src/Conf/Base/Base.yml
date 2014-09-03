@@ -6,7 +6,7 @@ conf:
     is_compression: 1                 #是否压缩存储
     write_level: info                 #日志输出级别：debug->info->waring->error,大于等于输入的日志级别才会被写进日志文件(级别由左到右变大)
     is_syslog: 0                      #是否是syslog日志
-    syslog_local: LOCAL0              #如果是syslog此参数才会生效
+    syslog_local: LOG_LOCAL0          #如果是syslog此参数才会生效
 
 product:
     - time                            #日志记录时间
