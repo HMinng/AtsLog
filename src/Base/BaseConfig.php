@@ -19,6 +19,8 @@ class BaseConfig
         self::setBusinessConfigures();
         self::setProjectConfigures();
 
+        self::checkPath();
+
         return true;
     }
 
@@ -64,6 +66,23 @@ class BaseConfig
         }
 
         self::$projectConfigures = Yaml::parse(__DIR__ . '/../Conf/Project/Project.yml');
+
+        return true;
+    }
+
+    private static function checkPath()
+    {
+        if (empty(self::$baseConfigures['path'])) {
+            throw new \Exception('Please configure the path parameter!');
+        }
+
+        if ( ! is_dir(self::$baseConfigures['path'])) {
+            throw new \Exception('The path parameter must be a directory!');
+        }
+
+        if ( ! is_writable(self::$baseConfigures['path'])) {
+            throw new \Exception('The path directory must be writable!');
+        }
 
         return true;
     }

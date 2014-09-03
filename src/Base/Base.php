@@ -1,6 +1,8 @@
 <?php
 namespace HMinng\Log\Base;
 
+use HMinng\Log\Queue\Queue;
+
 class Base
 {
     public static $startTime = NUll;
@@ -193,10 +195,16 @@ class Base
             $string = gzdeflate($string, 9);
         }
 
-        if (self::$configures['is_syslog'] ==  1) {
-            return self::remoteFileSystem($string);
-        } else {
-            return self::localFileSystem($string);
+        switch(self::$configures['writing_position']) {
+            case 'local':
+                return self::localFileSystem($string);break;
+            case 'remote':
+                return self::remoteFileSystem($string);break;
+            case 'queue':
+                return self::localQueueSystem($string);break;
+            default:
+                return self::localFileSystem($string);
+
         }
     }
 
@@ -216,6 +224,13 @@ class Base
         openlog('PHP_LOG', LOG_PID, self::$configures['syslog_local']);
         syslog($level[self::$level], $string);
         return closelog();
+    }
+
+    private static function localQueueSystem($string)
+    {
+        Queue::open();
+        Queue::add($string);
+        Queue::remove();
     }
 
     protected static function uppack($string)
