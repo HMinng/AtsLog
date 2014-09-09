@@ -1,7 +1,7 @@
 <?php
 namespace HMinng\Log\Base;
 
-use HMinng\Log\Queue\Queue;
+use HMinng\SHMLibrary\Common\SHMLibrary;
 
 class Base
 {
@@ -228,9 +228,19 @@ class Base
 
     private static function localQueueSystem($string)
     {
-        Queue::open();
-        Queue::add($string);
-        Queue::remove();
+        $file = self::$configures['path'] . DIRECTORY_SEPARATOR . 'tmp_log.log';
+
+        $numbers = SHMLibrary::getQueueMessageNumbers();
+
+        if ($numbers >= self::$configures['write_number']) {
+
+            error_log($string . "\r\n\r\n\r\n", 3, $file);
+        }
+
+        SHMLibrary::addMessageToQueue($string);
+
+
+
     }
 
     protected static function uppack($string)
