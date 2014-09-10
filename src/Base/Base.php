@@ -1,7 +1,7 @@
 <?php
 namespace HMinng\Log\Base;
 
-use HMinng\SHMLibrary\Common\SHMLibrary;
+use HMinng\Log\SHM\SHMLibrary;
 
 class Base
 {
@@ -241,7 +241,7 @@ class Base
             } else {
                 return self::remoteFileSystem($string);
             }
-        } else if ($numbers > self::$configures['write_number']) {
+        } else if ($numbers >= self::$configures['write_number']) {
             return self::writeTmpFile($string);
         }
 
