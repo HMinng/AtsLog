@@ -51,11 +51,7 @@ class SHMLibrary
         $configureFile = Memory::read(self::CONFIGURES_NUMBER);
         $foretime = Memory::read(self::SAVE_TIME_NUMBER);
 
-        if ( ! $foretime) {
-            return $configureFile;
-        }
-
-        if ((time() - $foretime) >= self::SAVE_PERIOD) {
+        if (is_numeric($foretime) && (time() - $foretime) >= self::SAVE_PERIOD) {
             return false;
         }
 

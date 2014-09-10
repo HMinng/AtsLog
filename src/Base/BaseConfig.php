@@ -2,7 +2,7 @@
 namespace HMinng\Log\Base;
 
 use Symfony\Component\Yaml\Yaml;
-use HMinng\SHMLibrary\Common\SHMLibrary;
+use HMinng\Log\SHM\SHMLibrary;
 
 class BaseConfig
 {
@@ -47,7 +47,7 @@ class BaseConfig
                 SHMLibrary::addConfiguresToMemory($configureFile);
             }
         }
-
+print_r($configureFile);exit;
         $configures = Yaml::parse($configureFile);
 
         self::$baseConfigures = $configures['conf'];
