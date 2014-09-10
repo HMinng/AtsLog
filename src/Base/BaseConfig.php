@@ -2,6 +2,7 @@
 namespace HMinng\Log\Base;
 
 use Symfony\Component\Yaml\Yaml;
+use HMinng\SHMLibrary\Common\SHMLibrary;
 
 class BaseConfig
 {
@@ -12,6 +13,8 @@ class BaseConfig
     private static $baseConfigures = NULL;
 
     private static $projectConfigures = NULL;
+
+    private static $remoteConfigureServer = 'http://video.baihe.com/video/configures';
 
     public static function init()
     {
@@ -30,10 +33,19 @@ class BaseConfig
             return true;
         }
 
-        $configureFile = __DIR__ . '/../../../../conf/custom/Log.yml';
+        if (is_null(self::$remoteConfigureServer)) {
+            $configureFile = __DIR__ . '/../../../../conf/custom/Log.yml';
 
-        if ( ! is_file($configureFile)) {
-            $configureFile = __DIR__ . '/../Conf/Base/Base.yml';
+            if ( ! is_file($configureFile)) {
+                $configureFile = __DIR__ . '/../Conf/Base/Base.yml';
+            }
+        } else {
+            $configureFile = SHMLibrary::getConfigures();
+
+            if ( ! $configureFile) {
+                $configureFile = file_get_contents(self::$remoteConfigureServer);
+                SHMLibrary::addConfiguresToMemory($configureFile);
+            }
         }
 
         $configures = Yaml::parse($configureFile);

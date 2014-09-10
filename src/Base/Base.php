@@ -23,6 +23,10 @@ class Base
 
     private static $isWrite = true;
 
+    private static $suffix = '.log';
+
+    private static $tmpLogFile = 'tmp_log';
+
     private static function init($message)
     {
         self::$time = time();
@@ -148,9 +152,10 @@ class Base
         }
 
         $tempFileName = $fileName . '-' . $num;
+        $isFile = $tempFileName . self::$suffix;
 
-        if (is_file($tempFileName)) {
-            $fileSize = filesize($tempFileName);
+        if (is_file($isFile)) {
+            $fileSize = filesize($isFile);
 
             $size = self::$configures['split_by_size'];
 
@@ -214,7 +219,7 @@ class Base
 
         $fileName = self::processFileSize($fileName);
 
-        return error_log($string . "\r\n\r\n\r\n", 3, $fileName . '.log');
+        return error_log($string . "\r\n\r\n\r\n", 3, $fileName . self::$suffix);
     }
 
     private static function remoteFileSystem($string)
@@ -228,19 +233,34 @@ class Base
 
     private static function localQueueSystem($string)
     {
-        $file = self::$configures['path'] . DIRECTORY_SEPARATOR . 'tmp_log.log';
-
         $numbers = SHMLibrary::getQueueMessageNumbers();
 
-        if ($numbers >= self::$configures['write_number']) {
-
-            error_log($string . "\r\n\r\n\r\n", 3, $file);
+        if (self::$configures['write_number'] == 0) {
+            if (self::$configures['queue_persistence_position'] == 1) {
+                return self::localFileSystem($string);
+            } else {
+                return self::remoteFileSystem($string);
+            }
+        } else if ($numbers > self::$configures['write_number']) {
+            return self::writeTmpFile($string);
         }
 
-        SHMLibrary::addMessageToQueue($string);
+        $flag = SHMLibrary::addMessageToQueue($string);
 
+        if ( ! $flag) {
+            self::writeTmpFile($string);
+        }
 
+        return true;
+    }
 
+    private static function writeTmpFile($string)
+    {
+        $file = self::$configures['path'] . DIRECTORY_SEPARATOR . self::$tmpLogFile . self::$suffix;
+
+        error_log($string . "\r\n\r\n\r\n", 3, $file);
+
+        return true;
     }
 
     protected static function uppack($string)
