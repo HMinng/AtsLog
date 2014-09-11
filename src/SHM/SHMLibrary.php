@@ -9,7 +9,7 @@ class SHMLibrary
     const QUEUE_NUMBER = 100;
     const CONFIGURES_NUMBER = 1;
     const SAVE_TIME_NUMBER = 2;
-    const SAVE_PERIOD = 3600;
+    const SAVE_PERIOD = 300;
 
     public static function addMessageToQueue($string)
     {
