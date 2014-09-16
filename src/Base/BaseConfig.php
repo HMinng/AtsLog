@@ -14,7 +14,7 @@ class BaseConfig
 
     private static $projectConfigures = NULL;
 
-    private static $remoteConfigureServer = 'http://video.baihe.com/video/configures';
+    private static $remoteConfigureServer = NULL;
 
     public static function init()
     {
@@ -47,7 +47,7 @@ class BaseConfig
                 SHMLibrary::addConfiguresToMemory($configureFile);
             }
         }
-print_r($configureFile);exit;
+
         $configures = Yaml::parse($configureFile);
 
         self::$baseConfigures = $configures['conf'];
