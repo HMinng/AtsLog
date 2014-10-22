@@ -31,7 +31,7 @@ class Base
     {
         self::$time = time();
 
-        self::$params['output'] = json_encode($message);
+        self::$params['output'] = $message;
 
         BaseConfig::init();
 

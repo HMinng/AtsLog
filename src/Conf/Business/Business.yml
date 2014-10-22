@@ -7,7 +7,7 @@ base:
     uri:            $fields[$key] = $_SERVER['DOCUMENT_URI'];
     line:           $fields[$key] = self::$params['line'];
     file:           $fields[$key] = self::$params['file'];
-    output:         $fields[$key] = json_encode(self::$params['output']);
+    output:         $fields[$key] = self::$params['output'];
     traces:         $fields[$key] = self::$params['traces'];
 
 product:
