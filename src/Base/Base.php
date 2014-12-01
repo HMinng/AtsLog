@@ -106,6 +106,10 @@ class Base
 
     private static function getFileName()
     {
+        if ( ! is_dir(self::$configures['path'])) {
+            @mkdir(self::$configures['path'], 0777);
+        }
+
         $fileName = self::$configures['path'] . DIRECTORY_SEPARATOR;
 
         if (self::$configures['split_by_level'] == 1) {
