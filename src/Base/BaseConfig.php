@@ -39,6 +39,7 @@ class BaseConfig
             if ( ! is_file($configureFile)) {
                 $configureFile = __DIR__ . '/../Conf/Base/Base.yml';
             }
+            $configureFile = file_get_contents($configureFile);
         } else {
             $configureFile = SHMLibrary::getConfigures();
 
