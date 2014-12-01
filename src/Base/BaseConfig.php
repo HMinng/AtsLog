@@ -49,7 +49,7 @@ class BaseConfig
             }
         }
 
-        $configures = Yaml::parse($configureFile);
+        $configures = self::parse($configureFile);
 
         self::$baseConfigures = $configures['conf'];
         self::$fieldsConfigures = $configures['product'];
@@ -63,7 +63,7 @@ class BaseConfig
             return true;
         }
 
-        $configures = Yaml::parse(__DIR__ . '/../Conf/Business/Business.yml');
+        $configures = self::parse(file_get_contents(__DIR__ . '/../Conf/Business/Business.yml'));
 
         $configures = array_merge($configures['base'], $configures['product']);
 
@@ -78,7 +78,7 @@ class BaseConfig
             return true;
         }
 
-        self::$projectConfigures = Yaml::parse(__DIR__ . '/../Conf/Project/Project.yml');
+        self::$projectConfigures = self::parse(file_get_contents(__DIR__ . '/../Conf/Project/Project.yml'));
 
         return true;
     }
@@ -118,5 +118,9 @@ class BaseConfig
     public static function getProjectConfigures()
     {
         return self::$projectConfigures;
+    }
+
+    public static function parse($content) {
+        return Yaml::parse($content);
     }
 }
