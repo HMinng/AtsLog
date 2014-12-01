@@ -90,7 +90,10 @@ class BaseConfig
         }
 
         if ( ! is_dir(self::$baseConfigures['path'])) {
-            throw new \Exception('The path parameter must be a directory!');
+            $flag = mkdir(self::$baseConfigures['path'], 0777);
+            if ( ! $flag) {
+                throw new \Exception('The path parameter must be a directory!');
+            }
         }
 
         if ( ! is_writable(self::$baseConfigures['path'])) {
