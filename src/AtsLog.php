@@ -34,10 +34,13 @@ class AtsLog extends Base
 
     /**
      * @param string $message 打印信息
+     * @param int  $traceId   链路id
      * @param array $params 包括input，info信息
      */
-    public static function info($message, $params = array())
+    public static function info($message, $traceId, $params = array())
     {
+        self::$params['id'] = Product::id($traceId);
+
         self::process('info', $message, $params);
     }
 
