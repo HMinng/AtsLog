@@ -1,7 +1,6 @@
 <?php
 namespace HMinng\Log\Base;
 
-use Symfony\Component\Yaml\Yaml;
 use HMinng\Log\SHM\SHMLibrary;
 
 class BaseConfig
@@ -124,6 +123,6 @@ class BaseConfig
     }
 
     public static function parse($content) {
-        return Yaml::parse($content);
+        return yaml_parse($content);
     }
 }
