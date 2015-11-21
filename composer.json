@@ -8,14 +8,6 @@
         }
     ],
     
-  	"repositories" : [ 
-		{"type" : "composer", "url" : "https://packagist.org/"}
-  	],
-  
-  	"require": {
-		"symfony/yaml": "~2.0"
-	},
-    
     "autoload": {
         "classmap" : [
         	"src/"
