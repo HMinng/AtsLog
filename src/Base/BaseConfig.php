@@ -122,7 +122,8 @@ class BaseConfig
         return self::$projectConfigures;
     }
 
-    public static function parse($content) {
+    public static function parse($content)
+    {
         return yaml_parse($content);
     }
 }

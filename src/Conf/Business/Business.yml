@@ -1,16 +1,16 @@
 base:
-    time:           $fields[$key] = date('Y-m-d H:i:s');
-    exec_time:      $fields[$key] = round(microtime(true) - self::$startTime, 4);
-    pid:            $fields[$key] = getmypid();
-    memory:         $fields[$key] = round(memory_get_usage()/1024/1024, 3);
-    level:          $fields[$key] = self::$level;
-    uri:            $fields[$key] = array_key_exists('DOCUMENT_URI', $_SERVER) ? $_SERVER['DOCUMENT_URI'] : $_SERVER['SCRIPT_NAME'];
-    line:           $fields[$key] = self::$params['line'];
-    file:           $fields[$key] = self::$params['file'];
-    output:         $fields[$key] = self::$params['output'];
-    traces:         $fields[$key] = self::$params['traces'];
+    time:           "$fields[$key] = date('Y-m-d H:i:s');"
+    exec_time:      "$fields[$key] = round(microtime(true) - self::$startTime, 4);"
+    pid:            "$fields[$key] = getmypid();"
+    memory:         "$fields[$key] = round(memory_get_usage()/1024/1024, 3);"
+    level:          "$fields[$key] = self::$level;"
+    uri:            "$fields[$key] = array_key_exists('DOCUMENT_URI', $_SERVER) ? $_SERVER['DOCUMENT_URI'] : $_SERVER['SCRIPT_NAME'];"
+    line:           "$fields[$key] = self::$params['line'];"
+    file:           "$fields[$key] = self::$params['file'];"
+    output:         "$fields[$key] = self::$params['output'];"
+    traces:         "$fields[$key] = self::$params['traces'];"
 
 product:
-    id:             $fields[$key] = self::$params['id'];
-    input:          $fields[$key] = array_key_exists('input', self::$params) ? json_encode(self::$params['input']) : NULL;
-    info:           $fields[$key] = array_key_exists('info', self::$params) ? self::$params['info'] : NULL;
+    id:             "$fields[$key] = self::$params['id'];"
+    input:          "$fields[$key] = array_key_exists('input', self::$params) ? json_encode(self::$params['input']) : NULL;"
+    info:           "$fields[$key] = array_key_exists('info', self::$params) ? self::$params['info'] : NULL;"

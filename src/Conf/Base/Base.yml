@@ -22,6 +22,6 @@ product:
     - output                          #输出
     - traces                          #堆栈信息
 #####################################custom###################################################
-    - id                              #[traceId_systemId_sourceId_customId]
+    - id                              #[traceId]
     - input                           #输入
     - info                            #扩展信息

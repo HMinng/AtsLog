@@ -6,28 +6,22 @@ class AtsLog extends Base
 {
     /**
      * @param string $message 错误信息
-     * @param int $traceId 链路ID
-     * @param int $sourceId 错误号
-     * @param int $customId 自定义ID
      * @param array $params 包括input，info信息
      */
-    public static function error($message, $traceId, $sourceId = 0, $customId = 0, $params = array())
+    public static function error($message, $params = array())
     {
-        self::$params['id'] = Product::id($traceId, $sourceId, $customId);
+        self::$params['id'] = $params['id'];
 
         self::process('error', $message, $params);
     }
 
     /**
      * @param string $message 警告信息
-     * @param int $traceId 链路ID
-     * @param int $sourceId 错误号
-     * @param int $customId 自定义ID
      * @param array $params 包括input，info信息
      */
-    public static function waring($message, $traceId, $sourceId = 0, $customId = 0, $params = array())
+    public static function waring($message, $params = array())
     {
-        self::$params['id'] = Product::id($traceId, $sourceId, $customId);
+        self::$params['id'] = $params['id'];
 
         self::process('waring', $message, $params);
     }
@@ -37,9 +31,9 @@ class AtsLog extends Base
      * @param int  $traceId   链路id
      * @param array $params 包括input，info信息
      */
-    public static function info($message, $traceId, $params = array())
+    public static function info($message, $params = array())
     {
-        self::$params['id'] = Product::id($traceId);
+        self::$params['id'] = $params['id'];
 
         self::process('info', $message, $params);
     }
@@ -50,6 +44,8 @@ class AtsLog extends Base
      */
     public static function debug($message, $params = array())
     {
+        self::$params['id'] = $params['id'];
+
         self::process('debug', $message, $params);
     }
 
