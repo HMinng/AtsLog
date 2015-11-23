@@ -52,11 +52,11 @@ class AtsLog extends Base
     private static function setParams($params)
     {
         if (array_key_exists('input', $params) && ! empty($params['input'])) {
-            self::$params['input'] = $params['input'];
+            self::$params['input'] = json_encode($params['input']);
         }
 
         if (array_key_exists('info', $params) && ! empty($params['info'])) {
-            self::$params['info'] = $params['info'];
+            self::$params['info'] = json_encode($params['info']);
         }
 
         if ( ! array_key_exists('id', self::$params)) {
