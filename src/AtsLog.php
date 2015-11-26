@@ -4,6 +4,7 @@ use HMinng\Log\Product\Product;
 
 class AtsLog extends Base
 {
+    public static $input = array();
     /**
      * @param string $message 错误信息
      * @param array $params 包括input，info信息
@@ -51,8 +52,8 @@ class AtsLog extends Base
 
     private static function setParams($params)
     {
-        if (array_key_exists('input', $params) && ! empty($params['input'])) {
-            self::$params['input'] = json_encode($params['input']);
+        if ( ! empty(self::$input)) {
+            self::$params['input'] = json_encode(self::$input);
         }
 
         if (array_key_exists('info', $params) && ! empty($params['info'])) {
