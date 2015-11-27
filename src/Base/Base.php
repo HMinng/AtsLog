@@ -76,7 +76,16 @@ class Base
 
     private static function traces()
     {
-        $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::$projectConfigures['traces']['number']);
+        if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
+            $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::$projectConfigures['traces']['number']);
+        } else {
+            $tmp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            for ($i = 0; $i < self::$projectConfigures['traces']['number']; $i ++) {
+                $traces[$i] = $tmp[$i];
+            }
+
+            unset($tmp);
+        }
 
         $line = self::$projectConfigures['traces']['line'];
         if ($traces[$line + 1]['function'] == '__construct') {
