@@ -33,7 +33,7 @@ class BaseConfig
         }
 
         if (is_null(self::$remoteConfigureServer)) {
-            $configureFile = __DIR__ . '/../../../../conf/custom/Log.yml';
+            $configureFile = __DIR__ . '/../../../../conf/custom/log.yml';
 
             if ( ! is_file($configureFile)) {
                 $configureFile = __DIR__ . '/../Conf/Base/Base.yml';
