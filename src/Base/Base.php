@@ -79,9 +79,13 @@ class Base
         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             $traces = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, self::$projectConfigures['traces']['number']);
         } else {
-            $tmp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+            $tmp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);print_r($tmp);exit;
             for ($i = 0; $i < self::$projectConfigures['traces']['number']; $i ++) {
-                $traces[$i] = $tmp[$i];
+                if (array_key_exists($i, $tmp)) {
+                    $traces[$i] = $tmp[$i];
+                } else {
+                    break;
+                }
             }
 
             unset($tmp);
