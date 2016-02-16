@@ -5,7 +5,7 @@ use HMinng\Log\SHM\SHMLibrary;
 
 class Base
 {
-    public static $startTime = NUll;
+    public static $startTime = NULL;
 
     public static $params = array();
 
