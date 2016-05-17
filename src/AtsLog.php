@@ -1,18 +1,17 @@
 <?php
 use HMinng\Log\Base\Base;
-use HMinng\Log\Product\Product;
 
 class AtsLog extends Base
 {
     public static $input = array();
+
+    public static $traceID = NULL;
     /**
      * @param string $message 错误信息
      * @param array $params 包括input，info信息
      */
     public static function error($message, $params = array())
     {
-        self::$params['id'] = $params['id'];
-
         self::process('error', $message, $params);
     }
 
@@ -22,8 +21,6 @@ class AtsLog extends Base
      */
     public static function waring($message, $params = array())
     {
-        self::$params['id'] = $params['id'];
-
         self::process('waring', $message, $params);
     }
 
@@ -34,8 +31,6 @@ class AtsLog extends Base
      */
     public static function info($message, $params = array())
     {
-        self::$params['id'] = $params['id'];
-
         self::process('info', $message, $params);
     }
 
@@ -45,8 +40,6 @@ class AtsLog extends Base
      */
     public static function debug($message, $params = array())
     {
-        self::$params['id'] = $params['id'];
-
         self::process('debug', $message, $params);
     }
 
@@ -60,8 +53,8 @@ class AtsLog extends Base
             self::$params['info'] = json_encode($params['info']);
         }
 
-        if ( ! array_key_exists('id', self::$params)) {
-            self::$params['id'] = NULL;
+        if ( ! array_key_exists('id', $params)) {
+            self::$params['id'] = self::$traceID;
         }
 
         return true;
