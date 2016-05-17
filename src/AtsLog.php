@@ -53,9 +53,7 @@ class AtsLog extends Base
             self::$params['info'] = json_encode($params['info']);
         }
 
-        if ( ! array_key_exists('id', $params)) {
-            self::$params['id'] = self::$traceID;
-        }
+        self::$params['id'] = self::$traceID;
 
         return true;
     }
