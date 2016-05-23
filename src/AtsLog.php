@@ -5,23 +5,24 @@ class AtsLog extends Base
 {
     public static $input = array();
 
-    public static $traceID = NULL;
+    private static $traceID = NULL;
+
     /**
      * @param string $message 错误信息
      * @param array $params 包括input，info信息
      */
-    public static function error($message, $params = array())
+    public static function error($message, $params = array(), $force = false)
     {
-        self::process('error', $message, $params);
+        self::process('error', $message, $params, $force);
     }
 
     /**
      * @param string $message 警告信息
      * @param array $params 包括input，info信息
      */
-    public static function waring($message, $params = array())
+    public static function waring($message, $params = array(), $force = false)
     {
-        self::process('waring', $message, $params);
+        self::process('waring', $message, $params, $force);
     }
 
     /**
@@ -29,21 +30,32 @@ class AtsLog extends Base
      * @param int  $traceId   链路id
      * @param array $params 包括input，info信息
      */
-    public static function info($message, $params = array())
+    public static function info($message, $params = array(), $force = false)
     {
-        self::process('info', $message, $params);
+        self::process('info', $message, $params, $force);
     }
 
     /**
      * @param string $message debug信息
      * @param array $params 包括input，info信息
      */
-    public static function debug($message, $params = array())
+    public static function debug($message, $params = array(), $force = false)
     {
-        self::process('debug', $message, $params);
+        self::process('debug', $message, $params, $force);
     }
 
-    private static function setParams($params)
+    private static function genTraceId()
+    {
+        $time = microtime(true);
+        $time = explode('.', $time);
+
+        $rand = rand(0,999);
+
+        $time = $time[0] . $time[1] * 1000 . $rand;
+        return $time;
+    }
+
+    private static function setParams($params, $force)
     {
         if ( ! empty(self::$input)) {
             self::$params['input'] = json_encode(self::$input);
@@ -53,16 +65,20 @@ class AtsLog extends Base
             self::$params['info'] = json_encode($params['info']);
         }
 
+        if (is_null(self::$traceID) || $force) {
+            self::$traceID = self::genTraceId();
+        }
+
         self::$params['id'] = self::$traceID;
 
         return true;
     }
 
-    private static function process($level, $message, $params)
+    private static function process($level, $message, $params, $force)
     {
         self::$level = $level;
 
-        self::setParams($params);
+        self::setParams($params, $force);
 
         self::write($message);
     }
