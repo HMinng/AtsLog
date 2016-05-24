@@ -5,7 +5,7 @@ class AtsLog extends Base
 {
     public static $input = array();
 
-    private static $traceID = NULL;
+    public static $traceID = NULL;
 
     /**
      * @param string $message 错误信息
