@@ -47,17 +47,17 @@ class AtsLog extends Base
     private static function genTraceId()
     {
         $time = microtime(true);
-        
+    
         if (strpos($time, '.') === false) {
             $time = $time.'.'.rand(0, 9999);
         }
-        
+    
         $time = explode('.', $time);
-        
+    
         $rand = rand(0, 999);
-        
+    
         $time = $time[0].$time[1] * 1000 .$rand;
-        
+    
         return uniqid($time, true);
     }
     
