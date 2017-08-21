@@ -17,6 +17,15 @@ class AtsLog extends Base
     }
     
     /**
+     * @param string $message 错误信息
+     * @param array $params 包括input，info信息
+     */
+    public static function success($message, $params = array(), $force = false)
+    {
+        self::process('success', $message, $params, $force);
+    }
+    
+    /**
      * @param string $message 警告信息
      * @param array $params 包括input，info信息
      */
