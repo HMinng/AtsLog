@@ -187,7 +187,7 @@ class Base
                     throw new \Exception('file size type error, log write failure!');
             }
 
-            $size = substr($size, 0, $unit - 1);
+            $size = substr($size, 0, $len - 1);
 
             if ($fileSize > $size) {
                 $tempFileName = $fileName . '-' . ++ $num;
